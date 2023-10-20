@@ -74,7 +74,7 @@ torch==1.13.1  (CPU) or torch==1.13.1+cu116  (GPU)
 - the first column must be ProteinID.
 -  the last column must be markers, which record the protein subcellular localization (PSL). For proteins with unknown PSLs, they should be marked as 'unknown'.
 - the middle rows must be  the fraction expression of protiens.
-- For a detailed format, refer to  **valerio2022.csv**, which three paired replicates.
+- For a detailed format, refer to  **valerio2022.csv**, which five paired replicates.
 
 
 
