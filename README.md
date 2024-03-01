@@ -129,7 +129,7 @@ python main.py -f valerio2022.csv -r 5
 
 ### Reference
 
-The paper is being submitted.
+Bing Wang, Xiangzheng Zhang, Xudong Han, Bingjie Hao, Yan Li, Xuejiang Guo, TransGCN: a semi-supervised graph convolution network–based framework to infer protein translocations in spatio-temporal proteomics, *Briefings in Bioinformatics*, Volume 25, Issue 2, March 2024, bbae055, https://doi.org/10.1093/bib/bbae055
 
 
 
