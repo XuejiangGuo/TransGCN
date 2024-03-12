@@ -37,11 +37,11 @@ class TransGCN:
         print('+++++++++++++Train to Predict Protein Subcellar Localization (PSL)+++++++++++++')
         self.trainPSL(DP.feature, DP.edge.coalesce(),
             DP.y1synsub_label, DP.y1real_rfprob,
-            DP.train_mask, DP.val_mask, DP.real_mask)
+            DP.train_mask, DP.val_mask, DP.real_mask, DP.r)
         print('++++++++++++++++Train to Predict Protein Translocation (PTF)++++++++++++++++')
         self.trainPTF(DP.feature, DP.edge.coalesce(),
             DP.y2synsub_label, DP.y2real_rfprob,
-            DP.train_mask, DP.val_mask, DP.real_mask)
+            DP.train_mask, DP.val_mask, DP.real_mask, DP.r)
 
         result = deepcopy(DP.df_real)
         markers_SYNprob, markers_SYN = self.realPSL_best.max(1)
@@ -62,7 +62,7 @@ class TransGCN:
 
 
     def trainPSL(self, feature, edge, y_label, yreal_rfprob,
-                 train_mask, val_mask, real_mask):
+                 train_mask, val_mask, real_mask, r):
 
         weight = len(y_label) / (len(torch.unique(y_label)) * torch.bincount(y_label))
         ytrain_label, yval_label = y_label[train_mask], y_label[val_mask]
@@ -113,11 +113,11 @@ class TransGCN:
                 print('EarlyStopping counter: {}'.format(counter))
                 break
 
-        self.PSLatt_weight = self.PSLatt_weight.cpu().detach()[:, -60:].numpy().mean(0).reshape(3, 20).mean(0)
+        self.PSLatt_weight = self.PSLatt_weight.cpu().detach()[:, -(20 * r):].numpy().mean(0).reshape(r, 20).mean(0)
         print(f'BestResult [{self.epochPSL_best}|{self.epochs}] val_loss: {self.valPSL_loss_best} | val_f1score: {self.valPSL_f1score_best}')
 
     def trainPTF(self, feature, edge, y_label, yreal_rfprob,
-                 train_mask, val_mask, real_mask):
+                 train_mask, val_mask, real_mask, r):
         weight = len(y_label) / (len(torch.unique(y_label)) * torch.bincount(y_label))
         ytrain_label, yval_label = y_label[train_mask], y_label[val_mask]
         torch.manual_seed(self.seed)
@@ -166,7 +166,7 @@ class TransGCN:
                 print('EarlyStopping counter: {}'.format(counter))
                 break
 
-        self.PTFatt_weight = self.PTFatt_weight.cpu().detach()[:, -60:].numpy().mean(0).reshape(3, 20).mean(0)
+        self.PTFatt_weight = self.PTFatt_weight.cpu().detach()[:, -(20 * r):].numpy().mean(0).reshape(r, 20).mean(0)
         print(f'BestResult [{self.epochPTF_best}|{self.epochs}] val_loss: {self.valPTF_loss_best} | val_auc: {self.valPTF_auc_best}')
 
 
