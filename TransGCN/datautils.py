@@ -28,7 +28,7 @@ class DataProcess:
 
     def train(self,  rawdata, R):
         print('++++++++++++++++++++Data Processing+++++++++++++++++++++++')
-        self.R = r
+        self.r = R
         self.an_col = generate_an_col(rawdata, R)
         self.df_real = data_norma(rawdata, R)
         self.df_syn = generate_synthetic_data(self.df_real, self.an_col, self.p, self.c)
